@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node src/service/index.ts"
+    "start": "nodemon",
+    "serve": "ts-node src/service/index.ts"
   },
   "author": "Artem Beresnev",
   "license": "ISC",
