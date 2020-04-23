@@ -198,7 +198,6 @@ rules:
   promise-function-async: false # throws an error in some cases, review later
   quotemark:
     options:
-      - avoid-template
       - double
   radix: true
   restrict-plus-operands: true
