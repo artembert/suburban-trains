@@ -13,11 +13,10 @@ const defaultQueryParams: TickerRequest = {
 };
 
 class ScheduleService {
-  public static endPoint: string = `https://api.mobile-kassa.ru/v1.7/train-schedule/date-travel`;
+  private endPoint: string = `https://api.mobile-kassa.ru/v1.7/train-schedule/date-travel`;
 
   public async getSchedule(params?: TickerRequest): Promise<any> {
-    console.log(ScheduleService.endPoint);
-    return axios(ScheduleService.endPoint, {
+    return axios(this.endPoint, {
       method: "GET",
       params: params ?? defaultQueryParams,
     });
