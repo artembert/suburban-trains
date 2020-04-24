@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
+import { Schedule } from "../../types/schedule";
 
 export interface TickerRequest {
   date: string;
@@ -15,8 +16,8 @@ const defaultQueryParams: TickerRequest = {
 class ScheduleService {
   private endPoint: string = `https://api.mobile-kassa.ru/v1.7/train-schedule/date-travel`;
 
-  public async getSchedule(params?: TickerRequest): Promise<any> {
-    return axios(this.endPoint, {
+  public async getSchedule(params?: TickerRequest): Promise<AxiosResponse<Schedule[]>> {
+    return axios.get<Schedule[]>(this.endPoint, {
       method: "GET",
       params: params ?? defaultQueryParams,
     });
