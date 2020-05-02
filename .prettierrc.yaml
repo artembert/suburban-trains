@@ -11,3 +11,4 @@ overrides:
       - ".*.yaml"
     options:
       tabWidth: 2
+arrowParens: avoid
