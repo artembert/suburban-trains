@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { promises } from "fs";
 import * as path from "path";
 import { ENV } from "../../env";
@@ -16,9 +16,9 @@ async function init(): Promise<void> {
     console.error(`Api token required but is not defined!`);
     return;
   }
-  const stationIdsList: string[] = (JSON.parse(
+  const stationIdsList: string[] = JSON.parse(
     (await promises.readFile(path.join(__dirname, stationCodesFilePath))).toString(`utf8`),
-  ) as string[]).slice(0, 5);
+  ) as string[];
   console.log(`IDs count: ${stationIdsList.length}`);
   const stationsList = [];
 
@@ -36,7 +36,7 @@ async function init(): Promise<void> {
           },
         })
       ).data;
-      console.log(`End ID ${stationId}: ${station.station.title}`);
+      console.log(`End  processing ID ${stationId}: ${station.station.title}\n`);
       stationsList.push(station);
       await promises.appendFile(path.join(__dirname, destStationsListFilePath), toJson(station));
     } catch (e) {
