@@ -31,6 +31,8 @@ export async function downloadSchedule(): Promise<void> {
             station: stationId,
             transport_types: `suburban`,
             direction: `на Москву`,
+            event: `departure`,
+            show_systems: `all`,
           },
         })
       ).data;
