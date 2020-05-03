@@ -9,7 +9,8 @@
     "serve": "ts-node src/service/index.ts",
     "cli": "ts-node ./src/service/cli/index.ts",
     "download-schedule": "ts-node src/yandex/station-schedule/index.ts --download-schedule",
-    "daily-trains": "ts-node src/yandex/station-schedule/index.ts --daily-trains"
+    "daily-trains": "ts-node src/yandex/station-schedule/index.ts --daily-trains",
+    "active-stations": "ts-node src/yandex/station-schedule/index.ts --active-stations"
   },
   "author": "Artem Beresnev",
   "license": "ISC",

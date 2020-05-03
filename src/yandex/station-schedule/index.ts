@@ -1,9 +1,10 @@
-import { dailyTrains } from "./daily-trains";
+import { activeStations, dailyTrains } from "./daily-trains";
 import { downloadSchedule } from "./download-schedule";
 
 const cli = {
   "--download-schedule": downloadSchedule,
   "--daily-trains": dailyTrains,
+  "--active-stations": activeStations,
 };
 
 init();
