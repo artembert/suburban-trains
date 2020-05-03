@@ -47,7 +47,7 @@ async function init(): Promise<void> {
   console.log(`Stations saved to ${commonDestStationsListFilePath}`);
 }
 
-function toJson(object: any): string {
+export function toJson(object: any): string {
   return JSON.stringify(object, undefined, 2);
 }
 
