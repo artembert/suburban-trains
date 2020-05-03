@@ -11,7 +11,7 @@ const destStationsListFilePath = `../../../data/stations/dist/stations-list-${ap
 const commonDestStationsListFilePath = `../../../data/stations/dist/common-stations-list-${appStartDate}.json`;
 
 export async function downloadSchedule(): Promise<void> {
-  console.log(appStartDate);
+  console.log(`Start downloadSchedule()`);
   if (apiToken === undefined) {
     console.error(`Api token required but is not defined!`);
     return;
@@ -36,6 +36,7 @@ export async function downloadSchedule(): Promise<void> {
             direction: `на Москву`,
             event: `departure`,
             show_systems: `all`,
+            limit: 400,
           },
         })
       ).data;
