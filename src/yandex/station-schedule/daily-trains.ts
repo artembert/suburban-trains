@@ -1,12 +1,21 @@
 import { promises } from "fs";
 import * as path from "path";
 import { appStartDate } from "../../shared/format-date";
-import { Schedule, Station, toJson } from "./download-schedule";
+import { Direction, Schedule, Station, toJson } from "./download-schedule";
 
 const commonDestStationsListFilePath = `../../../data/stations/dist/common-stations-list-${appStartDate}.json`;
 const dailyTrainsByStationsListFilePath = `../../../data/stations/dist/daily-trains-stations-list-${appStartDate}.json`;
 const activeStationsListFilePath = `../../../data/stations/dist/active-stations-list-${appStartDate}.json`;
 const directionsListFilePath = `../../../data/stations/dist/directions-list-${appStartDate}.json`;
+
+const clockwiseDirections = new Map([
+  [["на Воскресенск", "на Яганово"], "на Яганово"],
+  [["на Александров", "на Дмитров"], "на Дмитров"],
+  [["на Кубинку", "на Икшу"], "на Икшу"],
+  [["на Бекасово", "на Кубинку"], "на Кубинку"],
+  [["на Яганово", "на Детково"], "на Детково"],
+  [["на Яганово", "на Кубинку"], "на Кубинку"],
+]);
 
 export async function dailyTrains(): Promise<void> {
   console.log(`START dailyTrains()`);
@@ -21,7 +30,7 @@ export async function dailyTrains(): Promise<void> {
     return {
       code: station.station.code,
       title: station.station.title,
-      trainsPerDay: getDailyTrains(station.schedule),
+      trainsPerDay: getDailyTrains(station.schedule, station.directions),
       totalTrainsCount: station.schedule.length,
     };
   });
@@ -61,8 +70,22 @@ export async function getDirections(): Promise<void> {
   console.log(`Directions list saved to ${directionsListFilePath}`);
 }
 
-function getDailyTrains(schedule: Schedule[]): number {
-  return schedule.filter(item => item.days === "по будням" || item.days === "ежедневно").length;
+function getDailyTrains(schedule: Schedule[], directions: Direction[]): number {
+  if (directions.filter(direction => direction.code === "на Москву").length) {
+    return schedule.filter(
+      item => item.direction === "на Москву" && (item.days === "по будням" || item.days === "ежедневно"),
+    ).length;
+  } else {
+    for (const [directionsPair, value] of clockwiseDirections) {
+      if (
+        directions.filter(direction => direction.code === directionsPair[0] && direction.code === directionsPair[1])
+      ) {
+        return schedule.filter(
+          item => item.direction === value && (item.days === "по будням" || item.days === "ежедневно"),
+        ).length;
+      }
+    }
+  }
 }
 
 interface TrainsPerDayByStation {
