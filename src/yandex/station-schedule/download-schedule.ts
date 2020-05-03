@@ -2,16 +2,16 @@ import axios from "axios";
 import { promises } from "fs";
 import * as path from "path";
 import { ENV } from "../../env";
-import { formatDate } from "../../shared/format-date";
+import { appStartDate } from "../../shared/format-date";
 
 const stationCodesFilePath = `../../../data/buffered-stations.json`;
 const apiToken = ENV.YANDEX_API_TOKEN;
 const requestEndPoint = `https://api.rasp.yandex.net/v3.0/schedule/`;
-const destStationsListFilePath = `../../../data/stations/dist/stations-list`;
-const commonDestStationsListFilePath = `../../../data/stations/dist/common-stations-list`;
-const currentDate = formatDate(new Date(Date.now()));
+const destStationsListFilePath = `../../../data/stations/dist/stations-list-${appStartDate}.json`;
+const commonDestStationsListFilePath = `../../../data/stations/dist/common-stations-list-${appStartDate}.json`;
 
 export async function downloadSchedule(): Promise<void> {
+  console.log(appStartDate);
   if (apiToken === undefined) {
     console.error(`Api token required but is not defined!`);
     return;
@@ -41,22 +41,17 @@ export async function downloadSchedule(): Promise<void> {
       ).data;
       console.log(`End processing ID ${stationId}: ${station.station.title}\n`);
       stationsList.push(station);
-      await promises.appendFile(
-        path.join(__dirname, `${destStationsListFilePath}-${currentDate}.json`),
-        toJson(station),
-      );
+      await promises.appendFile(path.join(__dirname, destStationsListFilePath), toJson(station));
       counter++;
     } catch (e) {
       console.error(e);
     }
   }
-  await promises.writeFile(
-    path.join(__dirname, `${destStationsListFilePath}-${currentDate}.json`),
-    toJson(stationsList),
-  );
+  await promises.writeFile(path.join(__dirname, destStationsListFilePath), toJson(stationsList));
   console.log(`Stations saved to ${commonDestStationsListFilePath}`);
 }
 
+// tslint:disable-next-line:no-any
 export function toJson(object: any): string {
   return JSON.stringify(object, undefined, 2);
 }
@@ -68,6 +63,7 @@ export interface Station {
   date: null;
   station: StationClass;
   directions: Direction[];
+  // tslint:disable-next-line:no-any
   interval_schedule: any[];
 }
 

@@ -121,7 +121,7 @@ rules:
   no-invalid-template-strings: true
   no-invalid-this: true
   no-irregular-whitespace: true
-  no-magic-numbers: true
+  no-magic-numbers: false
   no-mergeable-namespace: true
   no-misused-new: true
   no-namespace: true

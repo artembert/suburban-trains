@@ -1,9 +1,10 @@
 import { promises } from "fs";
 import * as path from "path";
+import { appStartDate } from "../../shared/format-date";
 import { Schedule, Station, toJson } from "./download-schedule";
 
-const commonDestStationsListFilePath = `../../../data/stations/dist/common-stations-list.json`;
-const dailyTrainsByStationsListFilePath = `../../../data/stations/dist/daily-trains-stations-list.json`;
+const commonDestStationsListFilePath = `../../../data/stations/dist/common-stations-list-${appStartDate}.json`;
+const dailyTrainsByStationsListFilePath = `../../../data/stations/dist/daily-trains-stations-list-${appStartDate}.json`;
 
 export async function dailyTrains(): Promise<void> {
   console.log(`START dailyTrains()`);
