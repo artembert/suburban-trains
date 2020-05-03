@@ -27,7 +27,7 @@ function init(): void {
   (async () => {
     console.log(`Command ${userCommand}\n`);
     await cli[userCommand].call();
-    console.log(`\nDone`);
+    console.log(`\nDone\n`);
     process.exit(0);
   })();
 }
