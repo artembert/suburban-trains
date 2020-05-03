@@ -9,9 +9,7 @@ const requestEndPoint = `https://api.rasp.yandex.net/v3.0/schedule/`;
 const destStationsListFilePath = `../../../data/stations/dist/stations-list.json`;
 const commonDestStationsListFilePath = `../../../data/stations/dist/common-stations-list.json`;
 
-init().then(() => console.log(`Done`));
-
-async function init(): Promise<void> {
+export async function downloadSchedule(): Promise<void> {
   if (apiToken === undefined) {
     console.error(`Api token required but is not defined!`);
     return;
