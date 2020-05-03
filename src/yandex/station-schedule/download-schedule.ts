@@ -19,9 +19,10 @@ export async function downloadSchedule(): Promise<void> {
   ) as string[];
   console.log(`IDs count: ${stationIdsList.length}`);
   const stationsList = [];
+  let counter = 0;
 
   for (const stationId of stationIdsList) {
-    console.log(`Start processing ID ${stationId}`);
+    console.log(`[${counter}] Start processing ID ${stationId}`);
     try {
       const station = (
         await axios.get<Station>(requestEndPoint, {
@@ -39,6 +40,7 @@ export async function downloadSchedule(): Promise<void> {
       console.log(`End  processing ID ${stationId}: ${station.station.title}\n`);
       stationsList.push(station);
       await promises.appendFile(path.join(__dirname, destStationsListFilePath), toJson(station));
+      counter++;
     } catch (e) {
       console.error(e);
     }
