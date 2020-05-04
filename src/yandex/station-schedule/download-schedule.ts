@@ -2,13 +2,10 @@ import axios from "axios";
 import { promises } from "fs";
 import * as path from "path";
 import { ENV } from "../../env";
-import { appStartDate } from "../../shared/format-date";
+import { filesPaths } from "../../shared/files-paths";
 
-const stationCodesFilePath = `../../../data/buffered-stations.json`;
 const apiToken = ENV.YANDEX_API_TOKEN;
 const requestEndPoint = `https://api.rasp.yandex.net/v3.0/schedule/`;
-const destStationsListFilePath = `../../../data/stations/dist/stations-list-${appStartDate}.json`;
-const commonDestStationsListFilePath = `../../../data/stations/dist/common-stations-list-${appStartDate}.json`;
 
 export async function downloadSchedule(): Promise<void> {
   console.log(`Start downloadSchedule()`);
@@ -17,7 +14,7 @@ export async function downloadSchedule(): Promise<void> {
     return;
   }
   const stationIdsList: string[] = JSON.parse(
-    (await promises.readFile(path.join(__dirname, stationCodesFilePath))).toString(`utf8`),
+    (await promises.readFile(path.join(__dirname, filesPaths.stationCodes))).toString(`utf8`),
   ) as string[];
   console.log(`IDs count: ${stationIdsList.length}`);
   const stationsList = [];
@@ -42,14 +39,14 @@ export async function downloadSchedule(): Promise<void> {
       ).data;
       console.log(`End processing ID ${stationId}: ${station.station.title}\n`);
       stationsList.push(station);
-      await promises.appendFile(path.join(__dirname, destStationsListFilePath), toJson(station));
+      await promises.appendFile(path.join(__dirname, filesPaths.partialStationsList), toJson(station));
       counter++;
     } catch (e) {
       console.error(e);
     }
   }
-  await promises.writeFile(path.join(__dirname, destStationsListFilePath), toJson(stationsList));
-  console.log(`Stations saved to ${commonDestStationsListFilePath}`);
+  await promises.writeFile(path.join(__dirname, filesPaths.stationsList), toJson(stationsList));
+  console.log(`Stations saved to ${filesPaths.stationsList}`);
 }
 
 // tslint:disable-next-line:no-any
