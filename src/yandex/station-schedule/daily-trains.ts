@@ -70,15 +70,16 @@ export async function getDirections(): Promise<void> {
   console.log(`Directions list saved to ${directionsListFilePath}`);
 }
 
-function getDailyTrains(schedule: Schedule[], directions: Direction[]): number {
-  if (directions.filter(direction => direction.code === "на Москву").length) {
+function getDailyTrains(schedule: Schedule[], directionsList: Direction[]): number {
+  if (directionsList.filter(direction => direction.code === "на Москву").length) {
     return schedule.filter(
       item => item.direction === "на Москву" && (item.days === "по будням" || item.days === "ежедневно"),
     ).length;
   } else {
-    for (const [directionsPair, value] of clockwiseDirections) {
+    for (const [[direction1, direction2], value] of clockwiseDirections) {
       if (
-        directions.filter(direction => direction.code === directionsPair[0] && direction.code === directionsPair[1])
+        directionsList.filter(direction => direction.code === direction1).length &&
+        directionsList.filter(direction => direction.code === direction2).length
       ) {
         return schedule.filter(
           item => item.direction === value && (item.days === "по будням" || item.days === "ежедневно"),
