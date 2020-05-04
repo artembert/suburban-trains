@@ -1,10 +1,12 @@
 import { promises } from "fs";
 import * as path from "path";
 import { appStartDate } from "../../shared/format-date";
+import { toCsvAsync } from "../../shared/to-csv";
 import { Direction, Schedule, Station, toJson } from "./download-schedule";
 
 const commonDestStationsListFilePath = `../../../data/stations/dist/common-stations-list-${appStartDate}.json`;
 const dailyTrainsByStationsListFilePath = `../../../data/stations/dist/daily-trains-stations-list-${appStartDate}.json`;
+const dailyTrainsByStationsListCsvFilePath = `../../../data/stations/dist/daily-trains-stations-list-${appStartDate}.csv`;
 const activeStationsListFilePath = `../../../data/stations/dist/active-stations-list-${appStartDate}.json`;
 const directionsListFilePath = `../../../data/stations/dist/directions-list-${appStartDate}.json`;
 
@@ -36,7 +38,13 @@ export async function dailyTrains(): Promise<void> {
   });
 
   await promises.writeFile(path.join(__dirname, dailyTrainsByStationsListFilePath), toJson(dailyTrainsByStationsList));
-  console.log(`Trains per day by stations list saved to ${dailyTrainsByStationsListFilePath}`);
+  await promises.writeFile(
+    path.join(__dirname, dailyTrainsByStationsListCsvFilePath),
+    await toCsvAsync(dailyTrainsByStationsList),
+  );
+  console.log(`Trains per day by stations list saved to
+    - ${dailyTrainsByStationsListFilePath}
+    - ${dailyTrainsByStationsListCsvFilePath}`);
 }
 
 export async function activeStations(): Promise<void> {
