@@ -1,3 +1,4 @@
+import { dailyBuses } from "./daily-buses";
 import { activeStations, dailyTrains, getDirections } from "./daily-trains";
 import { downloadSchedule } from "./download-schedule";
 
@@ -6,6 +7,7 @@ const cli = {
   "--daily-trains": dailyTrains,
   "--active-stations": activeStations,
   "--get-directions": getDirections,
+  "--daily-buses": dailyBuses,
 };
 
 init();
