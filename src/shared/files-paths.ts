@@ -9,3 +9,10 @@ export const filesPaths = {
   dailyTrainsByStations: `../../../data/stations/dist/daily-trains-stations-list-${appStartDate}.json`,
   dailyTrainsByStationsCsv: `../../../data/stations/dist/daily-trains-stations-list-${appStartDate}.csv`,
 };
+
+export const busesFilesPaths = {
+  busStopsCodes: `../../../data/bus-stops/bus-stops-codes.json`,
+  busStopsList: `../../../data/bus-stops/bus-stops-list-${appStartDate}.json`,
+  dailyBusesByStops: `../../../data/bus-stops/daily-buses-stops-list-${appStartDate}.json`,
+  dailyBusesByStopsCsv: `../../../data/bus-stops/daily-buses-stops-list-${appStartDate}.csv`,
+};
