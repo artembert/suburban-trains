@@ -2,9 +2,9 @@ import { promises } from "fs";
 import * as GeoJSON from "geojson";
 
 const SRC_FILE_PATH = `data/moscow-region-stations.json`;
-const DIST_FILE_PATH = `data/moscow-region-railway-stations.geojson`;
+const DIST_FILE_PATH = `data/moscow-region-bus-stations.geojson`;
 const jsonIndentSize = 2;
-const stationType = `train`;
+const stationType = `bus_stop`;
 
 export interface RawDetails {
   title: string;
@@ -32,7 +32,7 @@ export interface Station {
 (async () => {
   const stations: RawDetails[] = JSON.parse((await promises.readFile(SRC_FILE_PATH)).toString(`utf8`));
   const railwayStations: Station[] = stations
-    .map(rawDetails => rawDetails.stations.filter(station => station.transport_type === stationType))
+    .map(rawDetails => rawDetails.stations.filter(station => station.station_type === stationType))
     .flat()
     .map(station => ({
       esr_code: station.codes.esr_code,
