@@ -12,6 +12,7 @@ export const filesPaths = {
 
 export const busesFilesPaths = {
   busStopsCodes: `../../../data/bus-stops/bus-stops-codes.json`,
+  partialBusStopsList: `../../../data/bus-stops/bus-stops-list-${appStartDate}.json`,
   busStopsList: `../../../data/bus-stops/bus-stops-list-${appStartDate}.json`,
   dailyBusesByStops: `../../../data/bus-stops/daily-buses-stops-list-${appStartDate}.json`,
   dailyBusesByStopsCsv: `../../../data/bus-stops/daily-buses-stops-list-${appStartDate}.csv`,

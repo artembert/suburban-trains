@@ -2,7 +2,7 @@ import axios from "axios";
 import { promises } from "fs";
 import * as path from "path";
 import { ENV } from "../../env";
-import { filesPaths } from "../../shared/files-paths";
+import { busesFilesPaths } from "../../shared/files-paths";
 
 const apiToken = ENV.YANDEX_API_TOKEN;
 const requestEndPoint = `https://api.rasp.yandex.net/v3.0/schedule/`;
@@ -13,9 +13,9 @@ export async function downloadSchedule(): Promise<void> {
     console.error(`Api token required but is not defined!`);
     return;
   }
-  const stationIdsList: string[] = JSON.parse(
-    (await promises.readFile(path.join(__dirname, filesPaths.stationCodes))).toString(`utf8`),
-  ) as string[];
+  const stationIdsList: string[] = (JSON.parse(
+    (await promises.readFile(path.join(__dirname, busesFilesPaths.busStopsCodes))).toString(`utf8`),
+  ) as string[]).slice(4517);
   console.log(`IDs count: ${stationIdsList.length}`);
   const stationsList = [];
   let counter = 0;
@@ -29,8 +29,7 @@ export async function downloadSchedule(): Promise<void> {
           params: {
             apikey: apiToken,
             station: stationId,
-            transport_types: `suburban`,
-            direction: `на Москву`,
+            transport_types: `bus`,
             event: `departure`,
             show_systems: `all`,
             limit: 400,
@@ -39,14 +38,14 @@ export async function downloadSchedule(): Promise<void> {
       ).data;
       console.log(`End processing ID ${stationId}: ${station.station.title}\n`);
       stationsList.push(station);
-      await promises.appendFile(path.join(__dirname, filesPaths.partialStationsList), toJson(station));
+      await promises.appendFile(path.join(__dirname, busesFilesPaths.partialBusStopsList), toJson(station));
       counter++;
     } catch (e) {
       console.error(e);
     }
   }
-  await promises.writeFile(path.join(__dirname, filesPaths.stationsList), toJson(stationsList));
-  console.log(`Stations saved to ${filesPaths.stationsList}`);
+  await promises.writeFile(path.join(__dirname, busesFilesPaths.busStopsList), toJson(stationsList));
+  console.log(`Stations saved to ${busesFilesPaths.busStopsList}`);
 }
 
 // tslint:disable-next-line:no-any
