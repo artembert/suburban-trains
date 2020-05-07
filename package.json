@@ -12,7 +12,7 @@
     "daily-trains": "ts-node src/yandex/station-schedule/index.ts --daily-trains",
     "active-stations": "ts-node src/yandex/station-schedule/index.ts --active-stations",
     "get-directions": "ts-node src/yandex/station-schedule/index.ts --get-directions",
-    "daily-buses": "ts-node src/yandex/station-schedule/index.ts --daily-buses"
+    "daily-buses": "node -r ts-node/register --max-old-space-size=3049 src/yandex/station-schedule/index.ts --daily-buses"
   },
   "author": "Artem Beresnev",
   "license": "ISC",

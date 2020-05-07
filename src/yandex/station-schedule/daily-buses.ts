@@ -6,12 +6,14 @@ import { Schedule, Station, toJson } from "./download-schedule";
 
 export async function dailyBuses(): Promise<void> {
   console.log(`START dailyBuses()`);
-  const stopsList: Station[] = JSON.parse(
-    `[${(await promises.readFile(path.join(__dirname, busesFilesPaths.busStopsList))).toString(`utf8`)}]`.replace(
-      /}{/g,
-      `},{`,
-    ),
-  ) as Station[];
+
+  const stopsList: Station[] = [];
+  for (const listPath of busesFilesPaths.busStopsFiles) {
+    const list: Station[] = JSON.parse(
+      `[${(await promises.readFile(path.join(__dirname, listPath))).toString(`utf8`)}]`.replace(/}{/g, `},{`),
+    ) as Station[];
+    stopsList.push(...list);
+  }
 
   const busesPerDayByStations: BusesPerDayByStation[] = stopsList.map(station => {
     if (station === undefined) {
@@ -30,7 +32,7 @@ export async function dailyBuses(): Promise<void> {
     path.join(__dirname, busesFilesPaths.dailyBusesByStopsCsv),
     await toCsvAsync(busesPerDayByStations),
   );
-  console.log(`Buses per day by stops saved to
+  console.log(`Buses per day by stops (${stopsList.length}) saved to
     - ${busesFilesPaths.dailyBusesByStops}
     - ${busesFilesPaths.dailyBusesByStopsCsv}`);
 }

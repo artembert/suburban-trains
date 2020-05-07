@@ -16,4 +16,9 @@ export const busesFilesPaths = {
   busStopsList: `../../../data/bus-stops/bus-stops-list-${appStartDate}.json`,
   dailyBusesByStops: `../../../data/bus-stops/daily-buses-stops-list-${appStartDate}.json`,
   dailyBusesByStopsCsv: `../../../data/bus-stops/daily-buses-stops-list-${appStartDate}.csv`,
+  busStopsFiles: [
+    `../../../data/bus-stops/bus-stops-list-5.6.2020-00.42.14.json`,
+    `../../../data/bus-stops/bus-stops-list-5.6.2020-20.36.14.json`,
+    `../../../data/bus-stops/bus-stops-list-5.6.2020-23.37.10.json`,
+  ],
 };
