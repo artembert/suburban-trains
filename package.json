@@ -1,5 +1,5 @@
 {
-  "name": "suburban-trains",
+  "name": "yanrex-rasp-suburban-trains",
   "version": "1.0.0",
   "description": "Download train schedule",
   "main": "index.js",
